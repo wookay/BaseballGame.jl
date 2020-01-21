@@ -27,10 +27,16 @@ function play(; N=3, nums::Vector{Int}=shuffle(1:9)[1:N], debug=false)
         elseif length(input) == 5
             delim = ' '
         else
+            @info :wrong_size
+            continue
+        end
+        guess = nothing
+        try
+            guess = parse.(Int, split(input, delim))
+        catch err
             @info :wrong_input
             continue
         end
-        guess = parse.(Int, split(input, delim))
         if !allunique(guess)
             @info :not_unique_numbers
         elseif !all(x -> x in 1:9, guess)
